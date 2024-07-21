@@ -5,7 +5,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -55,10 +54,4 @@ public class DataDBConfig {
 
         return transactionManager;
     }
-
-//    @Bean
-//    public JdbcTemplate jdbcTemplate() {
-//
-//        return new JdbcTemplate(dataDBSource());
-//    }
 }
