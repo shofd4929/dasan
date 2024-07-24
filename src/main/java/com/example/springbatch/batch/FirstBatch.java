@@ -45,7 +45,7 @@ public class FirstBatch {
         System.out.println("first job");
 
         return new JobBuilder("firstJob", jobRepository)
-                .incrementer(new RunIdIncrementer())
+                //.incrementer(new RunIdIncrementer())
                 .start(firstStep())
                 .build();
     }
