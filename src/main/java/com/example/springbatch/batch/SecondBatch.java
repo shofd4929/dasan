@@ -20,18 +20,18 @@ public class SecondBatch {
         this.platformTransactionManager = platformTransactionManager;
     }
 
-    @Bean
-    public Job secondJob() {
-
-        return new JobBuilder("secondJob", jobRepository)
-                .start()
-                .build();
-    }
-
-    @Bean
-    public Step secondStep() {
-
-        return new StepBuilder("secondStep", jobRepository)
-                .build();
-    }
+//    @Bean
+//    public Job secondJob() {
+//
+//        return new JobBuilder("secondJob", jobRepository)
+//                .start()
+//                .build();
+//    }
+//
+//    @Bean
+//    public Step secondStep() {
+//
+//        return new StepBuilder("secondStep", jobRepository)
+//                .build();
+//    }
 }
