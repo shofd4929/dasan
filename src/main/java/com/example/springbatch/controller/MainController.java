@@ -16,27 +16,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
 
     private final JobLauncher jobLauncher;
-    private final ApplicationContext applicationContext;
+    //private final ApplicationContext applicationContext;
     private final JobRegistry jobRegistry;
 
-    public MainController(JobLauncher jobLauncher, ApplicationContext applicationContext, JobRegistry jobRegistry) {
+    public MainController(JobLauncher jobLauncher, JobRegistry jobRegistry) {
         this.jobLauncher = jobLauncher;
-        this.applicationContext = applicationContext;
         this.jobRegistry = jobRegistry;
     }
 
     @GetMapping("/first")
-    public String firstApi(@RequestParam("value") String value) {
+    public String firstApi(@RequestParam("value") String value) throws Exception {
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("date", value)
                 .toJobParameters();
 
-        try {
-            jobLauncher.run(jobRegistry.getJob("firstJob"), jobParameters);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        jobLauncher.run(jobRegistry.getJob("firstJob"), jobParameters);
+
 
         return "ok";
     }
