@@ -26,7 +26,7 @@ public class FirstSchedule {
         this.applicationContext = applicationContext;
     }
 
-    @Scheduled(cron = "1 * * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "10 * * * * *", zone = "Asia/Seoul")
     public void runFirstJob() throws JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException,
             JobParametersInvalidException,
@@ -39,7 +39,7 @@ public class FirstSchedule {
                 .addString("date", date)
                 .toJobParameters();
 
-        Job firstJob = applicationContext.getBean("FirstJob", Job.class);
+        Job firstJob = applicationContext.getBean("firstJob", Job.class);
 
         jobLauncher.run(firstJob, jobParameters);
     }
