@@ -15,7 +15,6 @@ public class FirstSchedule {
 
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
-    //private final ApplicationContext applicationContext;
 
     public FirstSchedule(JobLauncher jobLauncher, JobRegistry jobRegistry) {
         this.jobLauncher = jobLauncher;
