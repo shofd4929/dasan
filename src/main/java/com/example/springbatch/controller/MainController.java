@@ -37,24 +37,5 @@ public class MainController {
         return "ok";
     }
 
-    @GetMapping("/third")
-    public String thirdApi(@RequestParam("value") String value) {
-
-        System.out.println(value);
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
-//                .addLong()
-                .toJobParameters();
-
-        try {
-            jobLauncher.run(jobRegistry.getJob("thirdJob"), jobParameters);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return "ok";
-    }
-
     //https://docs.spring.io/spring-batch/reference/job/configuring-launcher.html
 }
