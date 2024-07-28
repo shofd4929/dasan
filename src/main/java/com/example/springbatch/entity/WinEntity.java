@@ -10,13 +10,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class OrderEntity {
+public class WinEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
-    private Long order; //GREEN : 0 ~ 9, GOLD : 10 ~ 19, BLACK : 20 ~
-    private String grade;
+    private Long win;
+    private Boolean reward;
 }
