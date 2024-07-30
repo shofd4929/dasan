@@ -11,11 +11,13 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
+import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Configuration
@@ -44,6 +46,9 @@ public class SecondBatch {
 
         return new StepBuilder("secondStep", jobRepository)
                 .<WinEntity, WinEntity> chunk(10, platformTransactionManager)
+                .reader(winReader())
+                .processor(trueProcessor())
+                .writer(winWriter())
                 .build();
     }
 
@@ -54,6 +59,7 @@ public class SecondBatch {
                 .name("winReader")
                 .pageSize(10)
                 .methodName("findByWinGreaterThanEqual")
+                .arguments(Collections.singletonList(10L))
                 .repository(winRepository)
                 .sorts(Map.of("id", Sort.Direction.ASC))
                 .build();
@@ -62,12 +68,18 @@ public class SecondBatch {
     @Bean
     public ItemProcessor<WinEntity, WinEntity> trueProcessor() {
 
-
+        return item -> {
+            item.setReward(true);
+            return item;
+        };
     }
 
     @Bean
     public RepositoryItemWriter<WinEntity> winWriter() {
 
-
+        return new RepositoryItemWriterBuilder<WinEntity>()
+                .repository(winRepository)
+                .methodName("save")
+                .build();
     }
 }
