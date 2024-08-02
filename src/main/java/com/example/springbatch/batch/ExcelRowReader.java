@@ -28,7 +28,8 @@ public class ExcelRowReader implements ItemReader<Row> {
         Workbook workbook = WorkbookFactory.create(fileInputStream);
         Sheet sheet = workbook.getSheetAt(0);
         this.rowCursor = sheet.iterator();
-        // Skip header row if necessary
+
+
         if (rowCursor.hasNext()) {
             rowCursor.next();
         }
@@ -36,10 +37,11 @@ public class ExcelRowReader implements ItemReader<Row> {
 
     @Override
     public Row read() {
+
         if (rowCursor != null && rowCursor.hasNext()) {
             return rowCursor.next();
         } else {
-            return null; // No more rows to read
+            return null;
         }
     }
 }
