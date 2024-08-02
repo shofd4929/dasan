@@ -47,8 +47,8 @@ public class FourthBatch {
         return new StepBuilder("fourthStep", jobRepository)
                 .<Row, AfterEntity> chunk(10, platformTransactionManager)
                 .reader(excelReader())
-                .processor(middleProcessor())
-                .writer(afterWriter())
+                .processor(fourthProcessor())
+                .writer(fourthAfterWriter())
                 .build();
     }
 
@@ -56,19 +56,20 @@ public class FourthBatch {
     public ItemReader<Row> excelReader() {
 
         try {
-            return new ExcelRowReader("path/to/your/excel/file.xlsx");
+            return new ExcelRowReader("C:\\Users\\kim\\Desktop\\yummi.xlsx");
+            //리눅스나 맥은 /User/형태로
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Bean
-    public ItemProcessor<Row, AfterEntity> middleProcessor() {
+    public ItemProcessor<Row, AfterEntity> fourthProcessor() {
 
         return new ItemProcessor<Row, AfterEntity>() {
 
             @Override
-            public AfterEntity process(Row item) throws Exception {
+            public AfterEntity process(Row item) {
 
                 AfterEntity afterEntity = new AfterEntity();
                 afterEntity.setUsername(item.getCell(0).getStringCellValue());
@@ -79,7 +80,7 @@ public class FourthBatch {
     }
 
     @Bean
-    public RepositoryItemWriter<AfterEntity> afterWriter() {
+    public RepositoryItemWriter<AfterEntity> fourthAfterWriter() {
 
         return new RepositoryItemWriterBuilder<AfterEntity>()
                 .repository(afterRepository)
