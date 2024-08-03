@@ -61,5 +61,17 @@ public class MainController {
         return "ok";
     }
 
+    @GetMapping("/fifth")
+    private String fifthApi(@RequestParam("value") String value) throws Exception {
+
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("date", value)
+                .toJobParameters();
+
+        jobLauncher.run(jobRegistry.getJob("fifthJob"), jobParameters);
+
+        return "ok";
+    }
+
     //https://docs.spring.io/spring-batch/reference/job/configuring-launcher.html
 }

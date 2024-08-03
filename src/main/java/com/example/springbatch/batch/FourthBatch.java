@@ -9,7 +9,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +53,7 @@ public class FourthBatch {
     }
 
     @Bean
-    public ItemReader<Row> excelReader() {
+    public ItemStreamReader<Row> excelReader() {
 
         try {
             return new ExcelRowReader("C:\\Users\\kim\\Desktop\\yummi.xlsx");

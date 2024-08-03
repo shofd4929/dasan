@@ -4,34 +4,42 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.ItemStreamReader;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class ExcelRowReader implements ItemReader<Row> {
+public class ExcelRowReader implements ItemStreamReader<Row> {
 
     private final String filePath;
+    private FileInputStream fileInputStream;
+    private Workbook workbook;
     private Iterator<Row> rowCursor;
+
 
     public ExcelRowReader(String filePath) throws IOException {
 
         this.filePath = filePath;
-        initialize();
     }
 
-    private void initialize() throws IOException {
+    @Override
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
 
-        FileInputStream fileInputStream = new FileInputStream(filePath);
-        Workbook workbook = WorkbookFactory.create(fileInputStream);
-        Sheet sheet = workbook.getSheetAt(0);
-        this.rowCursor = sheet.iterator();
+        try {
+            fileInputStream = new FileInputStream(filePath);
+            workbook = WorkbookFactory.create(fileInputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+            this.rowCursor = sheet.iterator();
 
 
-        if (rowCursor.hasNext()) {
-            rowCursor.next();
+            if (rowCursor.hasNext()) {
+                rowCursor.next();
+            }
+        } catch (IOException e) {
+            throw new ItemStreamException(e);
         }
     }
 
@@ -42,6 +50,21 @@ public class ExcelRowReader implements ItemReader<Row> {
             return rowCursor.next();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void close() throws ItemStreamException {
+
+        try {
+            if (workbook != null) {
+                workbook.close();
+            }
+            if (fileInputStream != null) {
+                fileInputStream.close();
+            }
+        } catch (IOException e) {
+            throw new ItemStreamException(e);
         }
     }
 }
