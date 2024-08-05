@@ -58,13 +58,18 @@ public class FifthBatch {
     @Bean
     public RepositoryItemReader<BeforeEntity> fifthBeforeReader() {
 
-        return new RepositoryItemReaderBuilder<BeforeEntity>()
+        RepositoryItemReader<BeforeEntity> reader = new RepositoryItemReaderBuilder<BeforeEntity>()
                 .name("beforeReader")
                 .pageSize(10)
                 .methodName("findAll")
                 .repository(beforeRepository)
                 .sorts(Map.of("id", Sort.Direction.ASC))
                 .build();
+
+        // 전체 데이터 셋에서 어디까지 수행 했는지의 값을 저장하지 않음
+        reader.setSaveState(false);
+
+        return reader;
     }
 
     @Bean

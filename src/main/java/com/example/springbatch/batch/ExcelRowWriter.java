@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.batch.item.Chunk;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.ItemStreamWriter;
 
@@ -17,16 +18,16 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
     private final String filePath;
     private Workbook workbook;
     private Sheet sheet;
-    private int rowIndex = 0;
+    private int currentRowNumber;
 
     public ExcelRowWriter(String filePath) throws IOException {
 
         this.filePath = filePath;
-        initialize();
+        currentRowNumber = 0;
     }
 
-    private void initialize() throws ItemStreamException {
-
+    @Override
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
         workbook = new XSSFWorkbook();
         sheet = workbook.createSheet("Sheet1");
     }
@@ -34,7 +35,7 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
     @Override
     public void write(Chunk<? extends BeforeEntity> chunk) {
         for (BeforeEntity entity : chunk) {
-            Row row = sheet.createRow(rowIndex++);
+            Row row = sheet.createRow(currentRowNumber++);
             row.createCell(0).setCellValue(entity.getUsername());
         }
     }
@@ -49,7 +50,6 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
         } finally {
             try {
                 workbook.close();
-                rowIndex = 0;
             } catch (IOException e) {
                 throw new ItemStreamException(e);
             }
