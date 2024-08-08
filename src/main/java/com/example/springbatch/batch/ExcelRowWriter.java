@@ -19,11 +19,13 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
     private Workbook workbook;
     private Sheet sheet;
     private int currentRowNumber;
+    private boolean isClosed;
 
     public ExcelRowWriter(String filePath) throws IOException {
 
         this.filePath = filePath;
-        currentRowNumber = 0;
+        this.isClosed = false;
+        this.currentRowNumber = 0;
     }
 
     @Override
@@ -43,6 +45,10 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
     @Override
     public void close() throws ItemStreamException {
 
+        if (isClosed) {
+            return;
+        }
+
         try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
             workbook.write(fileOut);
         } catch (IOException e) {
@@ -52,6 +58,8 @@ public class ExcelRowWriter implements ItemStreamWriter<BeforeEntity> {
                 workbook.close();
             } catch (IOException e) {
                 throw new ItemStreamException(e);
+            } finally {
+                isClosed = true;
             }
         }
     }
