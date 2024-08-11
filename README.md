@@ -15,6 +15,7 @@ application.properties 설정 값만 변경 후 사용 부탁드립니다.
 - ThirdBatch : 예시 링크
 - FourthBatch : 엑셀 to 테이블
 - FifthBatch : 테이블 to 엑셀
+- SixthBatch : FirtstBatch 기반 JDBC JPA 속도 비교
 
 ## 데이터베이스 연결
 
