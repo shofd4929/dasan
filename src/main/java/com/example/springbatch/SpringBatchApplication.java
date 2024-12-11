@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class SpringBatchApplication {
 
-    // 마스터 브랜치
+    // develop branch
     public static void main(String[] args) {
         SpringApplication.run(SpringBatchApplication.class, args);
     }
