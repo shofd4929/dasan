@@ -1,4 +1,4 @@
-package com.example.springbatch.entity2;
+package com.example.springbatch.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,6 +12,6 @@ import java.util.Date;
 public class OTPINFO {
 
     @Id
-    private Long otpcode;
+    private int otpcode;
     private Date otpdate;
 }

@@ -1,109 +1,102 @@
 package com.example.springbatch.batch;
 
-import com.example.springbatch.entity2.AfterEntity2;
-import com.example.springbatch.entity2.BeforeEntity2;
-import com.example.springbatch.entity2.OTPINFO;
-import com.example.springbatch.repository2.OtpRepository;
-import com.example.springbatch.repository2.BeforeRepository2;
+import com.example.springbatch.entity.OTPINFO;
+import com.example.springbatch.repository.OtpRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.data.RepositoryItemReader;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
-import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
-import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 
+import java.security.SecureRandom;
 import java.util.Date;
-import java.util.Map;
 
 @Configuration
 public class OtpBatch {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
-    private final BeforeRepository2 beforeRepository;
-    private final OtpRepository OtpRepository;
+    private final OtpRepository otpRepository;
     private GoogleAuthenticator gAuth = new GoogleAuthenticator();
+    private boolean readOnce = false;
 
-    public OtpBatch(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, BeforeRepository2 beforeRepository, OtpRepository OtpRepository) {
-
+    public OtpBatch(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, OtpRepository otpRepository) {
         this.jobRepository = jobRepository;
         this.platformTransactionManager = platformTransactionManager;
-        this.beforeRepository = beforeRepository;
-        this.OtpRepository = OtpRepository;
+        this.otpRepository = otpRepository;
     }
 
     @Bean
     public Job otpJob() {
-
-        System.out.println("otp job");
-
         return new JobBuilder("otpJob", jobRepository)
-                //.incrementer(new RunIdIncrementer())
                 .start(otpStep())
                 .build();
     }
 
     @Bean
     public Step otpStep() {
-
-        System.out.println("otp step");
-
         return new StepBuilder("otpStep", jobRepository)
-                .<BeforeEntity2, OTPINFO> chunk(10, platformTransactionManager)
-                .reader(otpReader())
-                .processor(otpProcessor())
-                .writer(otpWriter())
-                .build();
-    }
-
-    //https://github.com/spring-projects/spring-batch/blob/main/spring-batch-samples/src/main/java/org/springframework/batch/samples/jpa/JpaRepositoryJobConfiguration.java
-    @Bean
-    public RepositoryItemReader<BeforeEntity2> otpReader() {
-
-        return new RepositoryItemReaderBuilder<BeforeEntity2>()
-                .name("otpReader")
-                .pageSize(10)
-                .methodName("findAll")
-                .repository(beforeRepository)
-                .sorts(Map.of("id", Sort.Direction.ASC))
+                .<OTPINFO, OTPINFO>chunk(10, platformTransactionManager)
+                .reader(otpReader())  // ItemReader에서 OTPINFO 객체를 생성
+                .processor(otpProcessor())  // 데이터 처리
+                .writer(otpWriter())  // 처리된 데이터 저장
                 .build();
     }
 
     @Bean
-    public ItemProcessor<BeforeEntity2, OTPINFO> otpProcessor() {
-
-        return new ItemProcessor<BeforeEntity2, OTPINFO>() {
-
+    public ItemReader<OTPINFO> otpReader() {
+        // ItemReader에서 OTPINFO 객체만 생성하여 반환합니다.
+        return new ItemReader<OTPINFO>() {
             @Override
-            public OTPINFO process(BeforeEntity2 item) throws Exception {
+            public OTPINFO read() throws Exception {
 
-                OTPINFO otpinfo = new OTPINFO();
-                String secretKey = "26VOBMHKYHNB6ALGYQXHKLNFXFF64XBY";
-                int serverOtp = gAuth.getTotpPassword(secretKey);
-                otpinfo.setOtpcode((long)serverOtp);
-                Date currentDate = new Date();
-                otpinfo.setOtpdate(currentDate);
-
-                return otpinfo;
+                if (readOnce) {
+                    return null;  // 이미 한 번 읽었으면 null 반환
+                }
+                readOnce = true;
+                return new OTPINFO();  // 기본 OTPINFO 객체를 반환
             }
         };
     }
 
     @Bean
-    public RepositoryItemWriter<OTPINFO> otpWriter() {
+    public ItemProcessor<OTPINFO, OTPINFO> otpProcessor() {
+        return new ItemProcessor<OTPINFO, OTPINFO>() {
+            @Override
+            public OTPINFO process(OTPINFO item) throws Exception {
+                // OTPINFO 객체를 받아서 값을 설정합니다.
+                String secretKey = "26VOBMHKYHNB6ALGYQXHKLNFXFF64XBY";
+                int serverOtp = gAuth.getTotpPassword(secretKey);
+                int tmp = generateRandomSecretKey();
+                item.setOtpcode(tmp);  // OTP 코드 설정
+                // item.setOtpcode(serverOtp);  // OTP 코드 설정
+                item.setOtpdate(new Date());  // 현재 날짜와 시간으로 설정
+                readOnce = false;
+                return item;  // 처리된 OTPINFO 객체 반환
+            }
+        };
+    }
 
-        return new RepositoryItemWriterBuilder<OTPINFO>()
-                .repository(OtpRepository)
-                .methodName("save")
-                .build();
+
+    private int generateRandomSecretKey() {
+        SecureRandom random = new SecureRandom();
+        int randomNumber = random.nextInt(900000) + 100000;  // 6자리 숫자 (100000 - 999999)
+        return randomNumber;  // 랜덤 숫자를 문자열로 반환
+    }
+
+    @Bean
+    public RepositoryItemWriter<OTPINFO> otpWriter() {
+        // RepositoryItemWriter를 사용하여 DB에 데이터를 저장합니다.
+        RepositoryItemWriter<OTPINFO> writer = new RepositoryItemWriter<>();
+        writer.setRepository(otpRepository);  // `otpRepository`를 사용하여 데이터를 저장
+        writer.setMethodName("save");  // `save` 메서드로 데이터를 저장
+        return writer;
     }
 }
