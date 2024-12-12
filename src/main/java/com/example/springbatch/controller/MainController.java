@@ -31,7 +31,7 @@ public class MainController {
                 .addString("date", value)
                 .toJobParameters();
 
-        jobLauncher.run(jobRegistry.getJob("firstJob"), jobParameters);
+        jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
 
 
         return "ok";
