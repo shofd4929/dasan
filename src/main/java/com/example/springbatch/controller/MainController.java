@@ -31,59 +31,9 @@ public class MainController {
                 .addString("date", value)
                 .toJobParameters();
 
-        jobLauncher.run(jobRegistry.getJob("firstJob"), jobParameters);
-
-
-        return "ok";
-    }
-
-    @GetMapping("/second")
-    private String secondApi(@RequestParam("value") String value) throws Exception {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
-                .toJobParameters();
-
-        jobLauncher.run(jobRegistry.getJob("secondJob"), jobParameters);
+        jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
 
         return "ok";
     }
 
-    @GetMapping("/fourth")
-    private String fourthApi(@RequestParam("value") String value) throws Exception {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
-                .toJobParameters();
-
-        jobLauncher.run(jobRegistry.getJob("fourthJob"), jobParameters);
-
-        return "ok";
-    }
-
-    @GetMapping("/fifth")
-    private String fifthApi(@RequestParam("value") String value) throws Exception {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
-                .toJobParameters();
-
-        jobLauncher.run(jobRegistry.getJob("fifthJob"), jobParameters);
-
-        return "ok";
-    }
-
-    @GetMapping("/sixth")
-    private String sixthApi(@RequestParam("value") String value) throws Exception {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addString("date", value)
-                .toJobParameters();
-
-        jobLauncher.run(jobRegistry.getJob("sixthJob"), jobParameters);
-
-        return "ok";
-    }
-
-    //https://docs.spring.io/spring-batch/reference/job/configuring-launcher.html
 }
