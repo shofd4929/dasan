@@ -34,6 +34,7 @@ public class FirstSchedule {
                 .toJobParameters();
 
         jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
+        jobLauncher.run(jobRegistry.getJob("otpJob2"), jobParameters);
     }
 
 
