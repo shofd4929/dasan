@@ -50,26 +50,29 @@ public class OtpBatch2 {
     public Step otpStep2() {
         return new StepBuilder("otpStep2", jobRepository)
                 .<OTPINFO, OTPINFO>chunk(10, platformTransactionManager)
-                .reader(otpReader2(null))  // ItemReader에서 OTPINFO 객체를 생성
+                .reader(otpReader2())  // ItemReader에서 OTPINFO 객체를 생성
                 .processor(otpProcessor2())  // 데이터 처리
                 .writer(otpWriter2())  // 처리된 데이터 저장
                 .transactionManager(platformTransactionManager)
                 .build();
     }
 
-    @Bean
     @StepScope
-    public ItemReader<OTPINFO> otpReader2(@Value("#{jobParameters['date']}") String date) {
+    @Bean
+    public ItemReader<OTPINFO> otpReader2() {
         return new ItemReader<OTPINFO>() {
+            private int count = 0;
 
-            private String processedDate = null;
             @Override
             public OTPINFO read() throws Exception {
-                if (processedDate != null && processedDate.equals(date)) {
-                    return null;  // 같은 날짜이면 null 반환 (이미 처리된 데이터는 다시 읽지 않음)
+                if (count < 1) {
+                    OTPINFO item = new OTPINFO();
+                    item.setOtpcode(generateRandomSecretKey());
+                    item.setOtpdate(new Date());
+                    count++;
+                    return item;
                 }
-                processedDate = date;
-                return new OTPINFO();  // 기본 OTPINFO 객체를 반환
+                return null; // 끝내기
             }
         };
     }
