@@ -7,12 +7,14 @@ import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -29,7 +31,6 @@ public class OtpBatch2 {
     private final OtpMapper otpMapper;
     private final EntityManager entityManager;  // EntityManager 주입
     private GoogleAuthenticator gAuth = new GoogleAuthenticator();
-    private boolean readOnce = false;
 
     public OtpBatch2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager,
                      OtpMapper otpMapper, EntityManager entityManager) {
@@ -50,7 +51,7 @@ public class OtpBatch2 {
     public Step otpStep2() {
         return new StepBuilder("otpStep2", jobRepository)
                 .<OTPINFO, OTPINFO>chunk(10, platformTransactionManager)
-                .reader(otpReader2())  // ItemReader에서 OTPINFO 객체를 생성
+                .reader(otpReader2(null))  // ItemReader에서 OTPINFO 객체를 생성
                 .processor(otpProcessor2())  // 데이터 처리
                 .writer(otpWriter2())  // 처리된 데이터 저장
                 .transactionManager(platformTransactionManager)
@@ -58,7 +59,8 @@ public class OtpBatch2 {
     }
 
     @Bean
-    public ItemReader<OTPINFO> otpReader2() {
+    @StepScope
+    public ItemReader<OTPINFO> otpReader2(@Value("#{jobParameters['date']}") String date) {
         return new ItemReader<OTPINFO>() {
 
             private String processedDate = null;
@@ -83,8 +85,7 @@ public class OtpBatch2 {
                 int serverOtp = gAuth.getTotpPassword(secretKey);
                 int tmp = generateRandomSecretKey();
                 item.setOtpcode(tmp);  // OTP 코드 설정
-                item.setOtpdate(new Date());  // 현재 날짜와 시간으로 설정
-                readOnce = false;
+                item.setOtpdate(new Date());  // 현재 날짜와 시
                 return item;
             }
         };
