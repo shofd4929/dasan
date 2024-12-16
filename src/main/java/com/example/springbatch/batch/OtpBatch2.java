@@ -29,7 +29,6 @@ public class OtpBatch2 {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final OtpMapper otpMapper;
-    private final EntityManager entityManager;  // EntityManager 주입
     private GoogleAuthenticator gAuth = new GoogleAuthenticator();
 
     public OtpBatch2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager,
@@ -37,7 +36,6 @@ public class OtpBatch2 {
         this.jobRepository = jobRepository;
         this.platformTransactionManager = platformTransactionManager;
         this.otpMapper = otpMapper;
-        this.entityManager = entityManager;
     }
 
     @Bean
