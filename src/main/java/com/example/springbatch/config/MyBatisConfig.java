@@ -1,48 +1,61 @@
 package com.example.springbatch.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.example.springbatch.mapper", sqlSessionFactoryRef = "dataDbSqlSessionFactory")
+@MapperScan(basePackages = "com.example.springbatch.mapper")  // MyBatis Mapper 인터페이스 경로 설정
 public class MyBatisConfig {
 
+    @Value("${spring.datasource.url}")
+    private String jdbcUrl;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverClassName;
+
+    @Value("${spring.datasource.hikari.maximum-pool-size}")
+    private int maxPoolSize;
+
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource-data-otp")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+    public HikariDataSource dataSource() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl(jdbcUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setMaximumPoolSize(maxPoolSize);
+        return dataSource;
     }
 
     @Bean
-    public SqlSessionFactory dataDbSqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
 
-        // PathMatchingResourcePatternResolver를 사용하여 mapper-locations 설정
+        // MyBatis Mapper XML 파일 위치 설정
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mappers/*.xml")); // Mapper XML 위치 지정
+        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mappers/*.xml"));
 
         return sessionFactoryBean.getObject();
     }
 
     @Bean
-    public DataSourceTransactionManager dataDbTransactionManager(@Qualifier("dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);  // Batch에서 사용할 PlatformTransactionManager 설정
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

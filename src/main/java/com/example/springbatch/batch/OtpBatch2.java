@@ -2,6 +2,7 @@ package com.example.springbatch.batch;
 
 import com.example.springbatch.entity.OTPINFO;
 import com.example.springbatch.mapper.OtpMapper;
+import com.example.springbatch.repository.OtpRepository;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +31,14 @@ public class OtpBatch2 {
     private final PlatformTransactionManager platformTransactionManager;
     private final OtpMapper otpMapper;
     private GoogleAuthenticator gAuth = new GoogleAuthenticator();
+    private final OtpRepository otpRepository;
 
     public OtpBatch2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager,
-                     OtpMapper otpMapper, EntityManager entityManager) {
+                     OtpMapper otpMapper, EntityManager entityManager ,OtpRepository otpRepository) {
         this.jobRepository = jobRepository;
         this.platformTransactionManager = platformTransactionManager;
         this.otpMapper = otpMapper;
+        this.otpRepository = otpRepository;
     }
 
     @Bean
@@ -109,6 +112,8 @@ public class OtpBatch2 {
                 // 데이터 출력 (예: 콘솔에 출력)
                 log.info("Generated OTP: " + item.getOtpcode() + ", OTP Date: " + item.getOtpdate());
                 otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
+                //otpRepository.save(item);
+                throw new RuntimeException("1111");
             }
         };
     }
