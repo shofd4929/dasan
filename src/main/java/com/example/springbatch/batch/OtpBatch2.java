@@ -3,6 +3,8 @@ package com.example.springbatch.batch;
 import com.example.springbatch.entity.OTPINFO;
 import com.example.springbatch.mapper.OtpMapper;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
+import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -14,12 +16,11 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+
 import java.security.SecureRandom;
 import java.util.Date;
-import java.util.List;
 
+@Slf4j
 @Configuration
 public class OtpBatch2 {
 
@@ -94,33 +95,15 @@ public class OtpBatch2 {
     }
 
     // MyBatis의 OtpMapper를 사용하여 데이터를 DB에 저장하는 ItemWriter 구현
+
     @Bean
     public ItemWriter<OTPINFO> otpWriter2() {
         return items -> {
-            EntityTransaction transaction = entityManager.getTransaction();
-            try {
-                // 트랜잭션 시작
-                transaction.begin();
-
-                // MyBatis의 Mapper를 사용하여 데이터를 DB에 저장
-                for (OTPINFO item : items) {
-                    otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
-                }
-
-                // 예시로 예외를 발생시켜 롤백을 유도
-                if (true) { // 예시 조건: 아이템이 5개 이상이면 예외 발생
-                    throw new RuntimeException("Force rollback due to error");
-                }
-
-                // 트랜잭션 커밋
-                transaction.commit();
-            } catch (Exception ex) {
-                // 예외 발생 시 롤백
-                if (transaction.isActive()) {
-                    transaction.rollback();
-                }
-                // 예외를 다시 던져서 Spring Batch가 롤백을 처리하도록 함
-                throw new RuntimeException("Error while processing items", ex);
+            // 각 아이템을 출력
+            for (OTPINFO item : items) {
+                // 데이터 출력 (예: 콘솔에 출력)
+                log.info("Generated OTP: " + item.getOtpcode() + ", OTP Date: " + item.getOtpdate());
+                otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
             }
         };
     }
