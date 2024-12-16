@@ -44,6 +44,7 @@ public class OtpBatch2 {
     public Job otpJob2() {
         return new JobBuilder("otpJob2", jobRepository)
                 .start(otpStep2())
+                .preventRestart()
                 .build();
     }
 
