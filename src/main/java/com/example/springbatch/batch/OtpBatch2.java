@@ -60,12 +60,14 @@ public class OtpBatch2 {
     @Bean
     public ItemReader<OTPINFO> otpReader2() {
         return new ItemReader<OTPINFO>() {
+
+            private String processedDate = null;
             @Override
             public OTPINFO read() throws Exception {
-                if (readOnce) {
-                    return null;  // 이미 한 번 읽었으면 null 반환
+                if (processedDate != null && processedDate.equals(date)) {
+                    return null;  // 같은 날짜이면 null 반환 (이미 처리된 데이터는 다시 읽지 않음)
                 }
-                readOnce = true;
+                processedDate = date;
                 return new OTPINFO();  // 기본 OTPINFO 객체를 반환
             }
         };
