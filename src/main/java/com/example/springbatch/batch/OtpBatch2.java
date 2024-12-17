@@ -91,11 +91,11 @@ public class OtpBatch2 {
             @Override
             public OTPINFO process(OTPINFO item) throws Exception {
                 // OTPINFO 객체를 받아서 값을 설정합니다.
-                String secretKey = "26VOBMHKYHNB6ALGYQXHKLNFXFF64XBY";
-                int serverOtp = gAuth.getTotpPassword(secretKey);
-                int tmp = generateRandomSecretKey();
-                item.setOtpcode(tmp);  // OTP 코드 설정
-                item.setOtpdate(new Date());  // 현재 날짜와 시
+//                String secretKey = "26VOBMHKYHNB6ALGYQXHKLNFXFF64XBY";
+//                int serverOtp = gAuth.getTotpPassword(secretKey);
+//                int tmp = generateRandomSecretKey();
+//                item.setOtpcode(tmp);  // OTP 코드 설정
+//                item.setOtpdate(new Date());  // 현재 날짜와 시
                 return item;
             }
         };

@@ -1,5 +1,6 @@
 package com.example.springbatch.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -13,5 +14,7 @@ public class OTPINFO {
 
     @Id
     private int otpcode;
+
+    @Column(name = "otpdate")
     private Date otpdate;
 }
