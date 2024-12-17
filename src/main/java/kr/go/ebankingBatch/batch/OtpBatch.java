@@ -12,7 +12,6 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,7 +63,6 @@ public class OtpBatch {
         // ItemReader에서 OTPINFO 객체만 생성하여 반환합니다.
         return new ItemReader<OTPINFO>() {
             private int count = 0;
-            private String processedDate = null;
 
             @Override
             public OTPINFO read() throws Exception {
