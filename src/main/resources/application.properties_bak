@@ -1,0 +1,24 @@
+spring.application.name=SpringBatch
+
+server.port=8090
+
+# Oracle Database ??
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@127.0.0.1:15111:SECHUL
+spring.datasource.username=DEX_LOCAL
+spring.datasource.password=DEX_LOCAL11
+
+# Spring Batch ??
+spring.batch.job.enabled=false
+#spring.batch.job.name=firstJob
+spring.batch.jdbc.initialize-schema=always
+spring.batch.jdbc.schema=classpath:org/springframework/batch/core/schema-oracle.sql
+
+# JPA
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+# ????
+logging.level.root=INFO
+logging.level.org.springframework.batch=INFO
