@@ -14,11 +14,11 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.example.springbatch.mapper", sqlSessionFactoryRef = "dataDbSqlSessionFactory")
+@MapperScan(basePackages = "kr.go.ebankingBatch.mapper", sqlSessionFactoryRef = "dataDbSqlSessionFactory")
 public class MyBatisConfig {
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource-data-otp")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
