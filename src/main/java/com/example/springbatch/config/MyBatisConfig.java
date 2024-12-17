@@ -1,11 +1,12 @@
 package com.example.springbatch.config;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -16,30 +17,21 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = "com.example.springbatch.mapper")  // MyBatis Mapper 인터페이스 경로 설정
 public class MyBatisConfig {
 
-    @Value("${spring.datasource.url}")
-    private String jdbcUrl;
-
-    @Value("${spring.datasource.username}")
-    private String username;
-
-    @Value("${spring.datasource.password}")
-    private String password;
-
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClassName;
-
-    @Value("${spring.datasource.hikari.maximum-pool-size}")
-    private int maxPoolSize;
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DataSourceProperties dataSourceProperties() {
+        return new DataSourceProperties(); // spring.datasource 관련 프로퍼티 바인딩
+    }
 
     @Bean
-    public HikariDataSource dataSource() {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(jdbcUrl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setMaximumPoolSize(maxPoolSize);
-        return dataSource;
+    public DataSource dataDBSource() {
+        DataSourceProperties properties = dataSourceProperties(); // dataSourceProperties Bean을 가져옵니다.
+        return DataSourceBuilder.create()
+                .url(properties.getUrl()) // 프로퍼티에서 URL을 가져옴
+                .username(properties.getUsername()) // 사용자명
+                .password(properties.getPassword()) // 비밀번호
+                .driverClassName(properties.getDriverClassName()) // 드라이버 클래스
+                .build();
     }
 
     @Bean
