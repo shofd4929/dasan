@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'org.springframework.batch:spring-batch-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testRuntimeOnly 'com.oracle.database.jdbc:ojdbc8:19.8.0.0'
-    //
+    // mybatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 }
 

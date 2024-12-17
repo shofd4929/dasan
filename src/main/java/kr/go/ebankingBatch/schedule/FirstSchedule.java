@@ -1,4 +1,4 @@
-package com.example.springbatch.schedule;
+package kr.go.ebankingBatch.schedule;
 
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;

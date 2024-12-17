@@ -1,6 +1,6 @@
-package com.example.springbatch.repository;
+package kr.go.ebankingBatch.repository;
 
-import com.example.springbatch.entity.OTPINFO;
+import kr.go.ebankingBatch.entity.OTPINFO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OtpRepository extends JpaRepository<OTPINFO, Long> {

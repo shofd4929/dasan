@@ -1,4 +1,4 @@
-package com.example.springbatch.controller;
+package kr.go.ebankingBatch.controller;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;

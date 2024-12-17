@@ -1,4 +1,4 @@
-package com.example.springbatch.config;
+package kr.go.ebankingBatch.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

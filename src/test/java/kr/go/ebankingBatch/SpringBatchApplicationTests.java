@@ -1,4 +1,4 @@
-package com.example.springbatch;
+package kr.go.ebankingBatch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
