@@ -118,7 +118,7 @@ public class OtpBatch2 {
                 log.info("Generated OTP: " + item.getOtpcode() + ", OTP Date: " + item.getOtpdate());
                 otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
                 //otpRepository.save(item);
-               // throw new RuntimeException("1111");
+                // throw new RuntimeException("1111");
             }
         };
     }
