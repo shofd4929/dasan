@@ -15,6 +15,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -52,7 +53,7 @@ public class OtpBatch2 {
     public Step otpStep2() {
         return new StepBuilder("otpStep2", jobRepository)
                 .<OTPINFO, OTPINFO>chunk(10, platformTransactionManager)
-                .reader(otpReader2())  // ItemReader에서 OTPINFO 객체를 생성
+                .reader(otpReader2(null))  // ItemReader에서 OTPINFO 객체를 생성
                 .processor(otpProcessor2())  // 데이터 처리
                 .writer(otpWriter2())  // 처리된 데이터 저장
                 .transactionManager(platformTransactionManager)
@@ -61,12 +62,17 @@ public class OtpBatch2 {
 
     @StepScope
     @Bean
-    public ItemReader<OTPINFO> otpReader2() {
+    public ItemReader<OTPINFO> otpReader2(@Value("#{jobParameters['date']}") String date) {
         return new ItemReader<OTPINFO>() {
             private int count = 0;
+            private String processedDate = null;
 
             @Override
             public OTPINFO read() throws Exception {
+                if (processedDate != null && processedDate.equals(date)) {
+                    return null;  // 같은 날짜이면 null 반환 (이미 처리된 데이터는 다시 읽지 않음)
+                }
+                processedDate = date;
                 if (count < 1) {
                     OTPINFO item = new OTPINFO();
                     item.setOtpcode(generateRandomSecretKey());
@@ -112,7 +118,7 @@ public class OtpBatch2 {
                 log.info("Generated OTP: " + item.getOtpcode() + ", OTP Date: " + item.getOtpdate());
                 otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
                 //otpRepository.save(item);
-                throw new RuntimeException("1111");
+               // throw new RuntimeException("1111");
             }
         };
     }

@@ -36,7 +36,7 @@ public class FirstSchedule {
         jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
     }
 
-    @Scheduled(cron = "*/10 * * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "*/3 * * * * *", zone = "Asia/Seoul")
     public void runFirstJob2() throws Exception {
 
         System.out.println("otp schedule start");
