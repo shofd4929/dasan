@@ -2,6 +2,7 @@ package kr.go.ebankingBatch.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -15,7 +16,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "kr.go.ebankingBatch.mapper", sqlSessionFactoryRef = "dataDbSqlSessionFactory")
+@MapperScan(basePackages = "kr.go.ebankingBatch.mapper")
 public class MyBatisConfig {
 
     @Bean
@@ -36,19 +37,19 @@ public class MyBatisConfig {
     }
 
     @Bean
-    public SqlSessionFactory dataDbSqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
 
-        // PathMatchingResourcePatternResolver를 사용하여 mapper-locations 설정
+        // MyBatis Mapper XML 파일 위치 설정
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mappers/*.xml")); // Mapper XML 위치 지정
+        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mappers/*.xml"));
 
         return sessionFactoryBean.getObject();
     }
 
     @Bean
-    public DataSourceTransactionManager dataDbTransactionManager(@Qualifier("dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

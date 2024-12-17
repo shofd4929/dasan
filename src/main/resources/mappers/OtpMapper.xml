@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.springbatch.mapper.OtpMapper">
+<mapper namespace="kr.go.ebankingBatch.mapper.OtpMapper">
 
-    <insert id="insertOtpInfo" parameterType="com.example.springbatch.entity.OTPINFO">
+    <insert id="insertOtpInfo" parameterType="kr.go.ebankingBatch.entity.OTPINFO">
         INSERT INTO otpinfo (otpcode, otpdate)
         VALUES (#{otpcode}, #{otpdate})
     </insert>
 
-    <select id="findOtpInfoByCode" resultType="com.example.springbatch.entity.OTPINFO">
+    <select id="findOtpInfoByCode" resultType="kr.go.ebankingBatch.entity.OTPINFO">
         SELECT * FROM otpinfo WHERE otpcode = #{otpcode}
     </select>
 
-    <select id="findAllOtpInfo" resultType="com.example.springbatch.entity.OTPINFO">
+    <select id="findAllOtpInfo" resultType="kr.go.ebankingBatch.entity.OTPINFO">
         SELECT * FROM otpinfo
     </select>
 
