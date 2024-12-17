@@ -46,7 +46,7 @@ spring:
     database: h2
 
 mybatis:
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath:/mappers/*.xml
   type-aliases-package: kr.go.ebankingBatch.entity
   configuration:
     map-underscore-to-camel-case: true

@@ -42,7 +42,7 @@ public class MyBatisConfig {
 
         // PathMatchingResourcePatternResolver를 사용하여 mapper-locations 설정
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml")); // Mapper XML 위치 지정
+        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mappers/*.xml")); // Mapper XML 위치 지정
 
         return sessionFactoryBean.getObject();
     }
