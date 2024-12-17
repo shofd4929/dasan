@@ -15,16 +15,26 @@ spring:
     jdbc:
       initialize-schema: ALWAYS
   datasource:
-    url: jdbc:mysql://127.0.0.1:3307/meta_db
+    url: jdbc:mysql://127.0.0.1:3307/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1111
     hikari:
-      maximum-pool-size: 10  # ?? ??? ? ??
-      minimum-idle: 5  # ?? ?? ??? ?
-      idle-timeout: 600000
+      maximum-pool-size: 10  # 최대 커넥션 풀 크기
+      minimum-idle: 5  # 최소 유휴 커넥션 수
+      idle-timeout: 600000  # 커넥션 풀 유휴 시간 (ms)
   jpa:
-    show-sql: true
+    show-sql: true  # SQL 쿼리 로그 출력
+    hibernate:
+      ddl-auto: update  # 자동으로 테이블을 업데이트
+    properties:
+      hibernate:
+        format_sql: true  # SQL 쿼리를 포맷하여 출력
+    open-in-view: false  # 뷰 템플릿에서 Lazy Loading을 방지
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL을 DEBUG 레벨로 로깅
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로그
 
 ---
 spring:
