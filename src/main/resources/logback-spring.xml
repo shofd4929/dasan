@@ -32,14 +32,20 @@
     </appender>
 
     <!-- 루트 로거 설정 -->
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="ROLLING" />
-    </root>
+
+
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="org.mybatis" level="DEBUG"/>
+    <logger name="org.mybatis.spring" level="DEBUG"/>
 
     <!-- Spring Batch 관련 로그 설정 -->
     <logger name="org.springframework.batch" level="DEBUG">
-        <appender-ref ref="ROLLING" />
+
     </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ROLLING" />
+    </root>
 
 </configuration>
