@@ -1,5 +1,6 @@
 package kr.go.ebankingBatch.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -12,6 +13,8 @@ import java.util.Date;
 public class OTPINFO {
 
     @Id
-    private int otpcode;
+    @Column(name = "otpcode")
+    private int id;
+
     private Date otpdate;
 }

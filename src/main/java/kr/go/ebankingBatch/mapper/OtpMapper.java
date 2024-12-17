@@ -1,4 +1,4 @@
-package kr.go.ebaningBatch.mapper;
+package kr.go.ebankingBatch.mapper;
 
 import kr.go.ebankingBatch.entity.OTPINFO;
 import org.apache.ibatis.annotations.Mapper;
