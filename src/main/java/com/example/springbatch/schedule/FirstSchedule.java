@@ -33,7 +33,7 @@ public class FirstSchedule {
                 .addString("date", date)
                 .toJobParameters();
 
-        jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
+        // jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
         jobLauncher.run(jobRegistry.getJob("otpJob2"), jobParameters);
     }
 
