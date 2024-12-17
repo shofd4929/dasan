@@ -1,7 +1,7 @@
 package com.example.springbatch.batch;
 
-import com.example.springbatch.entity2.OTPINFO2;
-import com.example.springbatch.repository2.OtpRepository2;
+import com.example.springbatch.entity3.OTPINFO3;
+import com.example.springbatch.repository3.OtpRepository3;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -19,58 +19,58 @@ import java.security.SecureRandom;
 import java.util.Date;
 
 @Configuration
-public class OtpBatch2 {
+public class OtpBatch3 {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
-    private final OtpRepository2 otpRepository;
+    private final OtpRepository3 otpRepository;
     private GoogleAuthenticator gAuth = new GoogleAuthenticator();
     private boolean readOnce = false;
 
-    public OtpBatch2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, OtpRepository2 otpRepository) {
+    public OtpBatch3(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, OtpRepository3 otpRepository) {
         this.jobRepository = jobRepository;
         this.platformTransactionManager = platformTransactionManager;
         this.otpRepository = otpRepository;
     }
 
     @Bean
-    public Job otpJob2() {
-        return new JobBuilder("otpJob2", jobRepository)
-                .start(otpStep2())
+    public Job otpJob3() {
+        return new JobBuilder("otpJob3", jobRepository)
+                .start(otpStep3())
                 .build();
     }
 
     @Bean
-    public Step otpStep2() {
-        return new StepBuilder("otpStep2", jobRepository)
-                .<OTPINFO2, OTPINFO2>chunk(10, platformTransactionManager)
-                .reader(otpReader2())  // ItemReader에서 OTPINFO 객체를 생성
-                .processor(otpProcessor2())  // 데이터 처리
-                .writer(otpWriter2())  // 처리된 데이터 저장
+    public Step otpStep3() {
+        return new StepBuilder("otpStep3", jobRepository)
+                .<OTPINFO3, OTPINFO3>chunk(10, platformTransactionManager)
+                .reader(otpReader3())  // ItemReader에서 OTPINFO 객체를 생성
+                .processor(otpProcessor3())  // 데이터 처리
+                .writer(otpWriter3())  // 처리된 데이터 저장
                 .build();
     }
 
     @Bean
-    public ItemReader<OTPINFO2> otpReader2() {
+    public ItemReader<OTPINFO3> otpReader3() {
         // ItemReader에서 OTPINFO 객체만 생성하여 반환합니다.
-        return new ItemReader<OTPINFO2>() {
+        return new ItemReader<OTPINFO3>() {
             @Override
-            public OTPINFO2 read() throws Exception {
+            public OTPINFO3 read() throws Exception {
 
                 if (readOnce) {
                     return null;  // 이미 한 번 읽었으면 null 반환
                 }
                 readOnce = true;
-                return new OTPINFO2();  // 기본 OTPINFO 객체를 반환
+                return new OTPINFO3();  // 기본 OTPINFO 객체를 반환
             }
         };
     }
 
     @Bean
-    public ItemProcessor<OTPINFO2, OTPINFO2> otpProcessor2() {
-        return new ItemProcessor<OTPINFO2, OTPINFO2>() {
+    public ItemProcessor<OTPINFO3, OTPINFO3> otpProcessor3() {
+        return new ItemProcessor<OTPINFO3, OTPINFO3>() {
             @Override
-            public OTPINFO2 process(OTPINFO2 item) throws Exception {
+            public OTPINFO3 process(OTPINFO3 item) throws Exception {
                 // OTPINFO 객체를 받아서 값을 설정합니다.
                 String secretKey = "26VOBMHKYHNB6ALGYQXHKLNFXFF64XBY";
                 int serverOtp = gAuth.getTotpPassword(secretKey);
@@ -92,9 +92,9 @@ public class OtpBatch2 {
     }
 
     @Bean
-    public RepositoryItemWriter<OTPINFO2> otpWriter2() {
+    public RepositoryItemWriter<OTPINFO3> otpWriter3() {
         // RepositoryItemWriter를 사용하여 DB에 데이터를 저장합니다.
-        RepositoryItemWriter<OTPINFO2> writer = new RepositoryItemWriter<>();
+        RepositoryItemWriter<OTPINFO3> writer = new RepositoryItemWriter<>();
         writer.setRepository(otpRepository);  // `otpRepository`를 사용하여 데이터를 저장
         writer.setMethodName("save");  // `save` 메서드로 데이터를 저장
         return writer;

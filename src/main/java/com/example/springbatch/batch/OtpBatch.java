@@ -75,8 +75,8 @@ public class OtpBatch {
                 String secretKey = "26VOBMHKYHNB6ALGYQXHKLNFXFF64XBY";
                 int serverOtp = gAuth.getTotpPassword(secretKey);
                 int tmp = generateRandomSecretKey();
-                item.setOtpcode(tmp);  // OTP 코드 설정
-                // item.setOtpcode(serverOtp);  // OTP 코드 설정
+                // item.setOtpcode(tmp);  // OTP 코드 설정
+                item.setOtpcode(serverOtp);  // OTP 코드 설정
                 item.setOtpdate(new Date());  // 현재 날짜와 시간으로 설정
                 readOnce = false;
                 return item;  // 처리된 OTPINFO 객체 반환
