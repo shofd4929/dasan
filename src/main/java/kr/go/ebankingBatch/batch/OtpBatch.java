@@ -10,6 +10,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -64,7 +65,7 @@ public class OtpBatch {
                 processedDate = date;
                 if (count < 1) {
                     OTPINFO item = new OTPINFO();
-                    item.setOtpcode(generateRandomSecretKey());
+                    item.setId(generateRandomSecretKey());
                     item.setOtpdate(new Date());
                     count++;
                     return item;
@@ -84,9 +85,9 @@ public class OtpBatch {
                 int serverOtp = gAuth.getTotpPassword(secretKey);
                 int tmp = generateRandomSecretKey();
                 // item.setOtpcode(tmp);  // OTP 코드 설정
-                item.setOtpcode(serverOtp);  // OTP 코드 설정
+                item.setId(serverOtp);  // OTP 코드 설정
                 item.setOtpdate(new Date());  // 현재 날짜와 시간으로 설정
-                readOnce = false;
+
                 return item;  // 처리된 OTPINFO 객체 반환
             }
         };

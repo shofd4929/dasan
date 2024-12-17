@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.example.springbatch.repository", // 첫 번째 DB에 해당하는 패키지 경로
+        basePackages = "kr.go.ebankingBatch.repository", // 첫 번째 DB에 해당하는 패키지 경로
         entityManagerFactoryRef = "firstEntityManager",
         transactionManagerRef = "firstTransactionManager"
 )
@@ -34,7 +34,7 @@ public class firstDBConfig {
     public LocalContainerEntityManagerFactoryBean firstEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(firstDataSource());
-        em.setPackagesToScan(new String[]{"com.example.springbatch.entity"}); // 첫 번째 DB에 맞는 엔티티 패키지 경로
+        em.setPackagesToScan(new String[]{"kr.go.ebankingBatch.entity"}); // 첫 번째 DB에 맞는 엔티티 패키지 경로
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         HashMap<String, Object> properties = new HashMap<>();

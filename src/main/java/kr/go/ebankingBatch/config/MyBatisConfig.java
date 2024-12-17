@@ -14,7 +14,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.example.springbatch.mapper", sqlSessionFactoryRef = "dataDbSqlSessionFactory")
+@MapperScan(basePackages = "kr.go.ebankingBatch.mapper", sqlSessionFactoryRef = "dataDbSqlSessionFactory")
 public class MyBatisConfig {
 
     @Bean

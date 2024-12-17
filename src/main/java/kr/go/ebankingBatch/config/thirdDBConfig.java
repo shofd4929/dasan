@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.example.springbatch.repository3", // 세 번째 DB에 해당하는 패키지 경로
+        basePackages = "kr.go.ebankingBatch.repository3", // 세 번째 DB에 해당하는 패키지 경로
         entityManagerFactoryRef = "thirdEntityManager",
         transactionManagerRef = "thirdTransactionManager"
 )
@@ -31,7 +31,7 @@ public class thirdDBConfig {
     public LocalContainerEntityManagerFactoryBean thirdEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(thirdDataSource());
-        em.setPackagesToScan(new String[]{"com.example.springbatch.entity3"}); // 두 번째 DB에 맞는 엔티티 패키지 경로
+        em.setPackagesToScan(new String[]{"kr.go.ebankingBatch.entity3"}); // 두 번째 DB에 맞는 엔티티 패키지 경로
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         HashMap<String, Object> properties = new HashMap<>();
