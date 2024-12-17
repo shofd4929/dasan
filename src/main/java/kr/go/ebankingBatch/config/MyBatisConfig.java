@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,19 @@ public class MyBatisConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+    public DataSourceProperties dataSourceProperties() {
+        return new DataSourceProperties(); // spring.datasource 관련 프로퍼티 바인딩
+    }
+
+    @Bean
+    public DataSource dataDBSource() {
+        DataSourceProperties properties = dataSourceProperties(); // dataSourceProperties Bean을 가져옵니다.
+        return DataSourceBuilder.create()
+                .url(properties.getUrl()) // 프로퍼티에서 URL을 가져옴
+                .username(properties.getUsername()) // 사용자명
+                .password(properties.getPassword()) // 비밀번호
+                .driverClassName(properties.getDriverClassName()) // 드라이버 클래스
+                .build();
     }
 
     @Bean
@@ -30,7 +42,7 @@ public class MyBatisConfig {
 
         // PathMatchingResourcePatternResolver를 사용하여 mapper-locations 설정
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mappers/*.xml")); // Mapper XML 위치 지정
+        sessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml")); // Mapper XML 위치 지정
 
         return sessionFactoryBean.getObject();
     }
