@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 
 public interface OtpRepository extends JpaRepository<OTPINFO, Long> {
-    void deleteByOtpdateBefore(LocalDate date);
 }
