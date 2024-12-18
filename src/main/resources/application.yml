@@ -13,7 +13,7 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
     url: jdbc:oracle:thin:@127.0.0.1:15111:SECHUL
     driver-class-name: oracle.jdbc.OracleDriver
