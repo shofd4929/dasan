@@ -43,6 +43,7 @@ public class OtpBatch {
     public Job otpJob() {
         return new JobBuilder("otpJob", jobRepository)
                 .start(otpStep())
+                .listener(new JobLoggerListener())
                 .preventRestart()
                 .build();
     }
