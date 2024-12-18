@@ -15,4 +15,8 @@
         SELECT * FROM otpinfo
     </select>
 
+    <delete id="deleteOtpInfo" parameterType="kr.go.ebankingBatch.entity.OTPINFO">
+        DELETE FROM otpinfo WHERE ROUND((SYSDATE - otpdate) * 24 * 60 * 60, 1) > 600
+    </delete>
+
 </mapper>
