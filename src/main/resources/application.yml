@@ -13,7 +13,7 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
     url: jdbc:mysql://127.0.0.1:3307/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
