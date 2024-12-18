@@ -4,11 +4,11 @@
 
     <insert id="insertOtpInfo" parameterType="kr.go.ebankingBatch.entity.OTPINFO">
         INSERT INTO otpinfo (otpcode, otpdate)
-        VALUES (#{otpcode}, #{otpdate})
+        VALUES (#{id}, #{otpdate})
     </insert>
 
     <select id="findOtpInfoByCode" resultType="kr.go.ebankingBatch.entity.OTPINFO">
-        SELECT * FROM otpinfo WHERE otpcode = #{otpcode}
+        SELECT * FROM otpinfo WHERE otpcode = #{id}
     </select>
 
     <select id="findAllOtpInfo" resultType="kr.go.ebankingBatch.entity.OTPINFO">
