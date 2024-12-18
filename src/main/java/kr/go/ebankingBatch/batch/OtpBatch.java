@@ -76,7 +76,8 @@ public class OtpBatch {
 
                 if (count < 1) {
                     OTPINFO item = new OTPINFO();
-                    item.setId(generateRandomSecretKey());
+                    // item.setId(generateRandomSecretKey());
+                    item.setId(generateOtpCode());
                     item.setOtpdate(new Date());
                     count++;
                     return item;
@@ -96,11 +97,16 @@ public class OtpBatch {
         };
     }
 
-
-    private int generateRandomSecretKey() {
+    /*private int generateRandomSecretKey() {
         SecureRandom random = new SecureRandom();
         int randomNumber = random.nextInt(900000) + 100000;  // 6자리 숫자 (100000 - 999999)
         return randomNumber;  // 랜덤 숫자를 문자열로 반환
+    }*/
+
+    private int generateOtpCode() {
+        String secretKey = "U4F7SD4POSC7FXYFGVPQD5BYA7UP3FQX";
+        int serverOtp = gAuth.getTotpPassword(secretKey);
+        return serverOtp;  // 랜덤 숫자를 문자열로 반환
     }
 
     @Bean
