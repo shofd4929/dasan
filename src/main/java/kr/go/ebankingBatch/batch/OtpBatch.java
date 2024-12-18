@@ -6,6 +6,7 @@ import kr.go.ebankingBatch.mapper.OtpMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -30,7 +31,6 @@ public class OtpBatch {
     private final OtpMapper otpMapper;
     private final OtpRepository otpRepository;
     private GoogleAuthenticator gAuth = new GoogleAuthenticator();
-    private boolean readOnce = false;
 
     public OtpBatch(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, OtpMapper otpMapper, OtpRepository otpRepository) {
         this.jobRepository = jobRepository;
@@ -58,6 +58,7 @@ public class OtpBatch {
                 .build();
     }
 
+    @StepScope
     @Bean
     public ItemReader<OTPINFO> otpReader() {
         // ItemReader에서 OTPINFO 객체만 생성하여 반환합니다.
