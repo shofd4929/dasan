@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 콘솔에 로그 출력 설정 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 날짜 기반 롤링 파일 어펜더 설정 -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/logs/spring-batch.log</file>
+
+        <!-- 롤링 정책 설정: 날짜 기반 롤링 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 로그 파일 이름 패턴 (날짜 포함) -->
+            <fileNamePattern>/logs/spring-batch-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 파일 크기 제한 (로그 파일이 10MB를 초과하면 롤링) -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 로그 파일 보관 기간 설정 (최대 30일 보관) -->
+            <maxHistory>30</maxHistory>
+            <!-- 오래된 로그 파일을 삭제할지 여부 설정 -->
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 루트 로거 설정 -->
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ROLLING_FILE"/>
+    </root>
+
+</configuration>
