@@ -1,4 +1,4 @@
-package com.example.springbatch.schedule;
+package kr.go.ebankingBatch.schedule;
 
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -21,10 +21,10 @@ public class FirstSchedule {
         this.jobRegistry = jobRegistry;
     }
 
-    @Scheduled(cron = "*/10 * * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "*/30 * * * * *", zone = "Asia/Seoul")
     public void runFirstJob() throws Exception {
 
-        System.out.println("first schedule start");
+        System.out.println("otp schedule start");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         String date = dateFormat.format(new Date());
@@ -33,6 +33,8 @@ public class FirstSchedule {
                 .addString("date", date)
                 .toJobParameters();
 
-        jobLauncher.run(jobRegistry.getJob("firstJob"), jobParameters);
+        jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
     }
+
+
 }

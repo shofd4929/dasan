@@ -1,4 +1,4 @@
-package com.example.springbatch;
+package kr.go.ebankingBatch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class SpringBatchApplication {
 
-    // 마스터 브랜치
+    // 오라클 브랜치
     public static void main(String[] args) {
         SpringApplication.run(SpringBatchApplication.class, args);
     }

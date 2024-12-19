@@ -1,0 +1,52 @@
+# default
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  batch:
+    job:
+      names: ${job.name:NONE}
+      enabled: false
+    jdbc:
+      initialize-schema: NEVER
+  datasource:
+    url: jdbc:oracle:thin:@127.0.0.1:15111:SECHUL
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: DEX_LOCAL
+    password: DEX_LOCAL11
+    hikari:
+      maximum-pool-size: 10  # 최대 커넥션 풀 크기
+      minimum-idle: 5  # 최소 유휴 커넥션 수
+      idle-timeout: 600000  # 커넥션 풀 유휴 시간 (ms)
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    show-sql: true  # SQL 쿼리 로그 출력
+    hibernate:
+      ddl-auto: update  # 자동으로 테이블을 업데이트
+    properties:
+      hibernate:
+        format_sql: true  # SQL 쿼리를 포맷하여 출력
+    open-in-view: false  # 뷰 템플릿에서 Lazy Loading을 방지
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL을 DEBUG 레벨로 로깅
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로그
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    database: h2
+
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: kr.go.ebankingBatch.entity
+  configuration:
+    map-underscore-to-camel-case: true
