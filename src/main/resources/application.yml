@@ -50,3 +50,32 @@ mybatis:
   type-aliases-package: kr.go.ebankingBatch.entity
   configuration:
     map-underscore-to-camel-case: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: maria  # MariaDB 프로파일
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3307/data_db  # MariaDB 연결 URL
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root  # MariaDB 사용자명
+    password: 1111  # MariaDB 비밀번호
+    hikari:
+      maximum-pool-size: 10  # 최대 커넥션 풀 크기
+      minimum-idle: 5  # 최소 유휴 커넥션 수
+      idle-timeout: 600000  # 커넥션 풀 유휴 시간 (ms)
+  jpa:
+    database: mariadb
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  # MariaDB에 맞는 Hibernate Dialect
+    show-sql: true  # SQL 쿼리 로그 출력
+    hibernate:
+      ddl-auto: update  # 자동으로 테이블을 업데이트
+    properties:
+      hibernate:
+        format_sql: true  # SQL 쿼리를 포맷하여 출력
+    open-in-view: false  # 뷰 템플릿에서 Lazy Loading을 방지
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL을 DEBUG 레벨로 로깅
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
