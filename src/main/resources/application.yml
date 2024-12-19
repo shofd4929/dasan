@@ -47,10 +47,10 @@ spring:
     jdbc:
       initialize-schema: ALWAYS
   datasource:
-    url: jdbc:oracle:thin:@100.31.15.164:1533:DGICMSTEST
+    url: jdbc:oracle:thin:@127.0.0.1:15111:SECHUL
     driver-class-name: oracle.jdbc.OracleDriver
-    username: DEXK_USR
-    password: DEXK_USR11
+    username: DEX_LOCAL
+    password: DEX_LOCAL11
     hikari:
       maximum-pool-size: 10  # 최대 커넥션 풀 크기
       minimum-idle: 5  # 최소 유휴 커넥션 수

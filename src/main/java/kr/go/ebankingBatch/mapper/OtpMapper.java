@@ -10,4 +10,6 @@ public interface OtpMapper {
     OTPINFO findOtpInfoByCode(int otpcode); // XML에서 정의한 select 쿼리를 호출
 
     List<OTPINFO> findAllOtpInfo(); // XML에서 정의한 select 쿼리를 호출
+
+    void deleteOtpInfo(OTPINFO otpInfo); // XML에서 정의한 delete 쿼리를 호출
 }
