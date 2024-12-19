@@ -32,7 +32,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     // h2 드라이버
-    testRuntimeOnly 'com.h2database:h2:2.3.232'
+    runtimeOnly 'com.h2database:h2:2.2.224'
     // mariadb 드라이버
     runtimeOnly 'com.mysql:mysql-connector-j'
     // Oracle DB 드라이버
