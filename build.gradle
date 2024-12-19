@@ -21,6 +21,9 @@ configurations {
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'  // 'libs' 디렉토리에서 JAR 파일을 찾기
+    }
 }
 
 dependencies {
