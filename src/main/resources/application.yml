@@ -1,7 +1,7 @@
 # default
 spring:
   profiles:
-    active: local
+    active: mariadb
 
 ---
 spring:
