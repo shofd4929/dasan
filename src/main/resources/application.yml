@@ -1,7 +1,7 @@
 # default
 spring:
   profiles:
-    active: oracle_local
+    active: h2_server
 ---
 spring:
   config:
@@ -35,6 +35,11 @@ spring:
     level:
       org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL을 DEBUG 레벨로 로깅
       org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로그
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: kr.go.ebankingBatch.entity
+  configuration:
+    map-underscore-to-camel-case: true
 ---
 spring:
   config:
@@ -68,15 +73,6 @@ spring:
     level:
       org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL을 DEBUG 레벨로 로깅
       org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로그
-
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  jpa:
-    database: h2
-
 mybatis:
   mapper-locations: classpath:/mappers/*.xml
   type-aliases-package: kr.go.ebankingBatch.entity
@@ -115,3 +111,57 @@ spring:
     level:
       org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL을 DEBUG 레벨로 로깅
       org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로그
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: kr.go.ebankingBatch.entity
+  configuration:
+    map-underscore-to-camel-case: true
+---
+
+spring:
+  config:
+    activate:
+      on-profile: h2_server  # H2 프로파일을 사용할 때 활성화 (필요시 사용)
+  batch:
+    job:
+      names: ${job.name:NONE}
+      enabled: false  # 배치 작업 자동 실행 여부
+    jdbc:
+      initialize-schema: ALWAYS  # 배치 관련 테이블 스키마 초기화 설정
+
+  # H2 데이터베이스 설정
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE  # H2 메모리 데이터베이스 설정
+    driver-class-name: org.h2.Driver  # H2 드라이버 클래스명
+    username: sa  # 기본 사용자명
+    password:   # 기본 비밀번호
+    hikari:
+      maximum-pool-size: 10  # 최대 커넥션 풀 크기
+      minimum-idle: 5  # 최소 유휴 커넥션 수
+      idle-timeout: 600000  # 커넥션 풀 유휴 시간 (ms)
+
+  # JPA 설정 (H2 데이터베이스에 맞는 Hibernate Dialect 사용)
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect  # H2에 맞는 Hibernate 방언 설정
+    show-sql: true  # SQL 쿼리 로그 출력 여부
+    hibernate:
+      ddl-auto: update  # 자동 테이블 업데이트 설정
+    properties:
+      hibernate:
+        format_sql: true  # SQL 쿼리 포맷팅
+    open-in-view: false  # 뷰 템플릿에서 Lazy Loading 방지
+
+  # 로깅 설정
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG  # Hibernate 실행 SQL 로깅
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로깅
+
+  h2:
+    console:
+      enabled: true  # H2 콘솔 활성화
+      path: /h2-console  # 콘솔 접속 경로 설정
+
+
+---
+
