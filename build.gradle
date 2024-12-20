@@ -27,6 +27,7 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
     implementation 'org.apache.poi:poi-ooxml:5.3.0'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
