@@ -2,9 +2,13 @@
 spring:
   profiles:
     active: h2_server
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
 server:
   port: 8091
+
 ---
 spring:
   config:
