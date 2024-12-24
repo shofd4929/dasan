@@ -122,10 +122,7 @@ public class OtpBatch {
                 //otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
                 //otpMapper.deleteOtpInfo(item);
                 otpRepository.save(item);
-                long currentTimeMillis = System.currentTimeMillis();
-                long tenMinutesInMillis = 10 * 60 * 1000; // 10분을 밀리초로 변환
-                Date timeBeforeTenMinutes = new Date(currentTimeMillis - tenMinutesInMillis);
-                otpRepository.deleteByOtpdateBefore(timeBeforeTenMinutes);;
+                otpRepository.deleteByOtpdateBefore(new Date(System.currentTimeMillis() - 10 * 60 * 1000));
             }
         };
     }
