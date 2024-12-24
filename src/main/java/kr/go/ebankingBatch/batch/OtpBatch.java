@@ -20,6 +20,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Slf4j
@@ -120,6 +122,7 @@ public class OtpBatch {
                 //otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
                 //otpMapper.deleteOtpInfo(item);
                 otpRepository.save(item);
+                otpRepository.deleteByOtpdateBefore(Date.from(LocalDateTime.now().minusMinutes(10).atZone(ZoneId.systemDefault()).toInstant()));;
                 // throw new RuntimeException("1111");
             }
         };
