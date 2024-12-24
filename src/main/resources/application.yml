@@ -1,7 +1,7 @@
 # default
 spring:
   profiles:
-    active: mariadb
+    active: h2_server
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
