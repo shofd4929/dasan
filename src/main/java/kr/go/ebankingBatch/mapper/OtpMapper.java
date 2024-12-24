@@ -3,6 +3,8 @@ package kr.go.ebankingBatch.mapper;
 import kr.go.ebankingBatch.entity.OTPINFO;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
+
+@Mapper
 public interface OtpMapper {
 
     void insertOtpInfo(OTPINFO otpInfo); // XML에서 정의한 insert 쿼리를 호출

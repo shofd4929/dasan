@@ -1,7 +1,7 @@
 # default
 spring:
   profiles:
-    active: h2_server
+    active: mariadb
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
@@ -112,7 +112,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3307/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 1111
+    password: ENC(tNDykhELUbsWs+DpdUX4pQ==)
     hikari:
       maximum-pool-size: 10  # 최대 커넥션 풀 크기
       minimum-idle: 5  # 최소 유휴 커넥션 수
