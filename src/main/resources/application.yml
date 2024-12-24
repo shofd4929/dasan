@@ -63,7 +63,7 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
     url: jdbc:oracle:thin:@127.0.0.1:1533:DGICMSTEST
     driver-class-name: oracle.jdbc.OracleDriver
@@ -107,7 +107,7 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
     url: jdbc:mysql://127.0.0.1:3307/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
