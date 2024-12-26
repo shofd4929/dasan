@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
+    id 'war'
 }
 
 group = 'kr.go'
@@ -32,7 +33,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
     // Lombok 의존성
     compileOnly 'org.projectlombok:lombok:1.18.22' // Lombok 버전
@@ -67,12 +67,36 @@ dependencies {
     // implementation 'org.springframework.boot:spring-boot-starter-security'
     // testImplementation 'org.springframework.security:spring-security-test'
 
-
 }
 
 tasks.named('test') {
     useJUnitPlatform()
     exclude '**/DatabaseTest*'  // DB와 관련된 테스트를 제외
-    // 또는 필요한 경우 테스트를 실행하지 않도록 설정
-    //enabled = false
+    //enabled = false  // 또는 필요한 경우 테스트를 실행하지 않도록 설정
 }
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE  // 중복 항목을 병합
+    archiveBaseName = 'my-application-jar' // WAR 파일의 이름 설정
+    version = '0.0.1'
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web' // JAR 배포 시 포함
+    }
+}
+
+bootWar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE  // 중복 항목 제외
+    archiveBaseName = 'my-application-war' // WAR 파일의 이름 설정
+    version = '0.0.1'
+    dependencies {
+        providedRuntime 'org.springframework.boot:spring-boot-starter-web'  // WAR 배포 시 톰캣을 제공되는 형태로
+    }
+    mainClass = 'kr.go.ebankingBatch.SpringBatchApplication'
+}
+
+war {
+    enabled = true  // WAR 파일 생성 허용
+}
+
+// build 태스크에 bootJar와 bootWar 동시생성
+build.dependsOn bootJar, bootWar
