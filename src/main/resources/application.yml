@@ -19,7 +19,7 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
     url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
     driver-class-name: oracle.jdbc.OracleDriver
@@ -63,9 +63,9 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
-    url: jdbc:oracle:thin:@100.31.15.164:1533:DGICMSTEST
+    url: jdbc:oracle:thin:@127.0.0.1:1533:DGICMSTEST
     driver-class-name: oracle.jdbc.OracleDriver
     username: DGCTPS
     password: ENC(uJhR+HszUO+5csnBWOln3IdaI1iKf2kX)
@@ -107,7 +107,7 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
   datasource:
     url: jdbc:mysql://127.0.0.1:3307/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver

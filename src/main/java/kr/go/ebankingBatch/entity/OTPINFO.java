@@ -14,6 +14,6 @@ public class OTPINFO {
     @Column(name = "otpcode")
     private int id;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date otpdate;
 }

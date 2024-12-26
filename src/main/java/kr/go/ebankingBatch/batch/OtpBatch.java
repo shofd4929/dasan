@@ -1,8 +1,9 @@
 package kr.go.ebankingBatch.batch;
 
+import com.warrenstrange.googleauth.GoogleAuthenticator;
 import kr.go.ebankingBatch.entity.OTPINFO;
-import kr.go.ebankingBatch.repository.OtpRepository;
 import kr.go.ebankingBatch.mapper.OtpMapper;
+import kr.go.ebankingBatch.repository.OtpRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -17,9 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-import com.warrenstrange.googleauth.GoogleAuthenticator;
 
-import java.security.SecureRandom;
 import java.util.Date;
 
 @Slf4j
@@ -120,7 +119,7 @@ public class OtpBatch {
                 //otpMapper.insertOtpInfo(item);  // MyBatis Mapper 사용
                 //otpMapper.deleteOtpInfo(item);
                 otpRepository.save(item);
-                // throw new RuntimeException("1111");
+                otpRepository.deleteByOtpdateBefore(new Date(System.currentTimeMillis() - 10 * 60 * 1000));
             }
         };
     }
