@@ -71,7 +71,7 @@ public class fileCopy {
             Session session = null;
 
             try {
-                // 세션 설정
+                // 세션 설정2222
                 session = jsch.getSession(user, host, 2222);
                 session.setPassword(password);
                 session.setConfig("StrictHostKeyChecking", "no"); // 호스트 키 체크 설정
