@@ -63,7 +63,7 @@ public class fileCopy {
             String host = "192.168.243.21";
             String user = "onenet";
             String password = "Bbwjsqnr1!B";
-            String localDirectory = "C:/down/down1/"; // 로컬 디렉토리22
+            String localDirectory = "C:/down/down1/"; // 로컬 디렉토리
             String remoteDirectory = "/home/onenet/down/"; // 원격 디렉토리
             String remoteArchiveDirectory = "/home/onenet/archived/"; // 원격 파일 이동할 디렉토리
 
