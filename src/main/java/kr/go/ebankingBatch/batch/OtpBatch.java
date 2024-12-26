@@ -52,7 +52,7 @@ public class OtpBatch {
         return new StepBuilder("otpStep", jobRepository)
                 .<OTPINFO, OTPINFO>chunk(10, platformTransactionManager)
                 .reader(otpReader(null))  // ItemReader에서 OTPINFO 객체를 생성
-                .processor(otpProcessor())  // 데이터 처리111222
+                .processor(otpProcessor())  // 데이터 처리
                 .writer(otpWriter())  // 처리된 데이터 저장
                 .transactionManager(platformTransactionManager)
                 .build();
