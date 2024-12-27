@@ -94,7 +94,7 @@ bootWar {
 }
 
 war {
-    enabled = true  // WAR 파일 생성 허용
+    enabled = false  // WAR 파일 생성 허용
 }
 
 // build 태스크에 bootJar와 bootWar 동시생성
