@@ -107,9 +107,9 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: NEVER
+      initialize-schema: ALWAYS
   datasource:
-    url: jdbc:mysql://localhost:3307/data_db
+    url: jdbc:mysql://host.docker.internal:3308/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ENC(tNDykhELUbsWs+DpdUX4pQ==)

@@ -3,4 +3,29 @@ services:
   bootdocker:
     build: .
     ports:
-      - "8091:8091"
+      - "8090:8091"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb:3306/data_db  # 변경된 포트
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1111  # 일치시킴
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+    depends_on:
+      - mariadb
+    networks:
+      - mynetwork
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111  # 일치시킴
+      MYSQL_DATABASE: data_db
+    ports:
+      - "3306:3306"  # 호스트의 3308 포트를 컨테이너의 3306 포트로 매핑
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # init.sql 파일 마운트
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
