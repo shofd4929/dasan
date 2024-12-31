@@ -112,7 +112,7 @@ spring:
     url: jdbc:mysql://host.docker.internal:3308/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 1111
+    password: ENC(uJhR+HszUO+5csnBWOln3IdaI1iKf2kX)
     hikari:
       maximum-pool-size: 10  # 최대 커넥션 풀 크기
       minimum-idle: 5  # 최소 유휴 커넥션 수
