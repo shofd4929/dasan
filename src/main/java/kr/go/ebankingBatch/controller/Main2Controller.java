@@ -33,12 +33,12 @@ public class Main2Controller {
     @GetMapping("/startOtpJob")
     public String startOtpJob(@RequestParam("value") String value) throws Exception {
         // 배치 작업 실행
-        JobParameters jobParameters = new JobParametersBuilder()
+        /*JobParameters jobParameters = new JobParametersBuilder()
                 .addString("date", value)
                 .toJobParameters();
 
         // 배치 작업 실행
-        jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);
+        jobLauncher.run(jobRegistry.getJob("otpJob"), jobParameters);*/
 
         return "OTP 배치 작업이 시작되었습니다.";
     }

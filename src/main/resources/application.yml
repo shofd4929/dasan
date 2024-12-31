@@ -107,9 +107,9 @@ spring:
       names: ${job.name:NONE}
       enabled: false
     jdbc:
-      initialize-schema: NEVER
+      initialize-schema: ALWAYS
   datasource:
-    url: jdbc:mysql://127.0.0.1:3307/data_db
+    url: jdbc:mysql://host.docker.internal:3308/data_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ENC(tNDykhELUbsWs+DpdUX4pQ==)
@@ -185,6 +185,8 @@ spring:
     console:
       enabled: true  # H2 콘솔 활성화
       path: /h2-console  # 콘솔 접속 경로 설정
+      settings:
+        web-allow-others: true
 
 springdoc:
   api-docs:
