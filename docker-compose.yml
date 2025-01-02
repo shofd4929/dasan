@@ -5,10 +5,10 @@ services:
     image: mariadb:latest
     container_name: mariadb-container
     environment:
-      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_ROOT_PASSWORD: ENC(tNDykhELUbsWs+DpdUX4pQ==)
       MYSQL_DATABASE: data_db
       MYSQL_USER: root
-      MYSQL_PASSWORD: 1111
+      MYSQL_PASSWORD: ENC(tNDykhELUbsWs+DpdUX4pQ==)
       TZ: Asia/Seoul
     ports:
       - "3308:3306"  # 외부 포트 3308을 MariaDB 내부 포트 3306에 매핑
@@ -29,6 +29,12 @@ services:
       - DB_PASSWORD=ENC(tNDykhELUbsWs+DpdUX4pQ==)
     ports:
       - "8091:8091"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     depends_on:
       - mariadb
     networks:
