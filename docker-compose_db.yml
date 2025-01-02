@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: data_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1111
+    ports:
+      - "3308:3306"  # 외부 포트 3308을 MariaDB 내부 포트 3306에 매핑
+    volumes:
+      - C:/mariadb:/var/lib/mysql  # 데이터 볼륨 설정
+    environment:
+      - TZ=Asia/Seoul  # 한국 시간 설정
+    networks:
+      - mariadb-network
+
+networks:
+  mariadb-network:
+    driver: bridge

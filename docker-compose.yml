@@ -1,37 +1,39 @@
 version: '3.8'
 
 services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_DATABASE: data_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1111
+      TZ: Asia/Seoul
+    ports:
+      - "3308:3306"  # 외부 포트 3308을 MariaDB 내부 포트 3306에 매핑
+    volumes:
+      - C:/mariadb:/var/lib/mysql  # 데이터 볼륨 설정
+    networks:
+      - app-network
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: spring_batch_app
-    networks:
-      - my_network
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb:3306/data_db?serverTimezone=Asia/Seoul
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=1111
       - TZ=Asia/Seoul
-    depends_on:
-      - mariadb
+      - DB_URL=jdbc:mysql://mariadb:3306/data_db  # MariaDB 연결 URL을 환경 변수로 설정
+      - DB_USERNAME=root
+      - DB_PASSWORD=1111
     ports:
       - "8091:8091"
-
-  mariadb:
-    image: mariadb:latest
-    container_name: mariadb
+    depends_on:
+      - mariadb
     networks:
-      - my_network
-    environment:
-      MYSQL_ROOT_PASSWORD: 1111
-      MYSQL_DATABASE: data_db
-      TZ: "Asia/Seoul"
-    volumes:
-      - C:/mariadb:/var/lib/mysql
-    ports:
-      - "3308:3306"  # 로컬 호스트의 3308 포트를 컨테이너의 3306 포트에 매핑
+      - app-network
 
 networks:
-  my_network:
+  app-network:
     driver: bridge
