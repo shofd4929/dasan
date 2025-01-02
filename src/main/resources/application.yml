@@ -112,7 +112,7 @@ spring:
     url: ${DB_URL:jdbc:mysql://localhost:3307/data_db}  # DB_URL이 없으면 localhost:3306에 접속
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME:root}  # DB_USERNAME이 없으면 'root' 사용
-    password: ${DB_PASSWORD:1111}  # DB_PASSWORD가 없으면 '1111' 사용
+    password: ENC(tNDykhELUbsWs+DpdUX4pQ==)  # DB_PASSWORD가 없으면 '1111' 사용
     hikari:
       maximum-pool-size: 10  # 최대 커넥션 풀 크기
       minimum-idle: 5  # 최소 유휴 커넥션 수

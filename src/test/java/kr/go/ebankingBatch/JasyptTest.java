@@ -11,7 +11,7 @@ public class JasyptTest {
 
     @Test
     public void jasyptTest(){
-        String value = "HANAITCPS";
+        String value = "1111";
         String result = jasyptEncoding(value);
         log.info(result);
     }

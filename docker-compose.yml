@@ -26,7 +26,7 @@ services:
       - TZ=Asia/Seoul
       - DB_URL=jdbc:mysql://mariadb:3306/data_db  # MariaDB 연결 URL을 환경 변수로 설정
       - DB_USERNAME=root
-      - DB_PASSWORD=1111
+      - DB_PASSWORD=ENC(tNDykhELUbsWs+DpdUX4pQ==)
     ports:
       - "8091:8091"
     depends_on:
