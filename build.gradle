@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'kr.go'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
     toolchain {
@@ -67,11 +67,13 @@ dependencies {
     // security
     //implementation 'org.springframework.boot:spring-boot-starter-security'
     //testImplementation 'org.springframework.security:spring-security-test'
-
-
 }
 
 tasks.getByName('bootJar') {
+    // JAR 파일 이름 지정
+    archiveFileName = "app-${project.version}.jar" // 원하는 이름으로 JAR 파일을 지정
+
+    // 중복된 파일을 제외하는 설정
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
