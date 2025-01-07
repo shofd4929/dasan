@@ -64,6 +64,7 @@ dependencies {
     // jasypt
     implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     // security
     //implementation 'org.springframework.boot:spring-boot-starter-security'
     //testImplementation 'org.springframework.security:spring-security-test'
