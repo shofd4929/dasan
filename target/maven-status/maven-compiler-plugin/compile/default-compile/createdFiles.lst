@@ -1,0 +1,9 @@
+com\example\MybatisTest.class
+com\example\SDJPa.class
+com\example\MyBatisRollbackTest.class
+com\example\config\AppConfig.class
+com\example\service\MyBatisService.class
+com\example\entity\TestEntity.class
+com\example\mapper\TestMapper.class
+com\example\repository\TestRepository.class
+com\example\service\QueryDslService.class

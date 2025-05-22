@@ -1,0 +1,3 @@
+1747884918645|14|statement|connection 1|url jdbc:p6spy:mariadb://1.209.171.34:3306/dasan|select table_name from information_schema.TABLES where table_schema=database() and table_type='SEQUENCE'|select table_name from information_schema.TABLES where table_schema=database() and table_type='SEQUENCE'
+1747884919264|7|statement|connection 2|url jdbc:p6spy:mariadb://1.209.171.34:3306/dasan|insert into TestEntity (name) values (?)|insert into TestEntity (name) values ('Hello Spring Data JPA')
+1747884919293|10|rollback|connection 2|url jdbc:p6spy:mariadb://1.209.171.34:3306/dasan||
